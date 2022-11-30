@@ -103,13 +103,13 @@ void output_formatter::print_help() {
     << "Query device or group states with:" << endl
     << "  lightctl state[-group] [<id>]" << endl
     << endl
-    << "This will print a device or group table for all or the specified ID with following columns:" << endl
-    << "  ID    Device ID" << endl
+    << "This will print a device or group table for all or the specified IDs with following columns:" << endl
+    << "  ID    Device or group ID" << endl
     << "  PWR   On or off    on/off" << endl
     << "  HUE   Hue value    0..360 " << endl
     << "  SAT   Saturation   0..100" << endl
     << "  BRI   Brightness   0..100" << endl
-    << "  NAME  Device name" << endl
+    << "  NAME  Device or group name" << endl
     << endl
     << "No value (-) is printed for HUE and SAT if the device does not support colors." << endl
     << endl
@@ -117,7 +117,7 @@ void output_formatter::print_help() {
     << "  lightctl set[-group] <id> <on/off> [<brightness: 0..100>]" << endl
     << "  lightctl set[-group] <id> <on/off> <hue: 0..360> [<saturation: 0..100>] <brightness: 0..100>" << endl
     << "  " << endl
-    << "This will also print the device or group table for the specified device." << endl
+    << "This will also print the device or group table for the specified device or group." << endl
     << endl
     << "Color names can be used instead of hue values:" << endl
     << "  red, orange, yellow, lime, green, turquoise, cyan, azure, blue, violet, magenta, rose." << endl
@@ -165,6 +165,5 @@ void output_formatter::print_help() {
     << "  for a particular purpose. " << endl
     << endl
     << "Author:" << endl
-    << "  Christian Rauch" << endl
-    << endl;
+    << "  Christian Rauch" << endl;
 }

@@ -6,13 +6,13 @@ You can query device states or set device attributes (such as brightness or hue)
 Query device or group states with:
   lightctl state[-group] [<id>]
 
-This will print a device or group table for all or the specified ID with following columns:
-  ID    Device ID
+This will print a device or group table for all or the specified IDs with following columns:
+  ID    Device or group ID
   PWR   On or off    on/off
   HUE   Hue value    0..360 
   SAT   Saturation   0..100
   BRI   Brightness   0..100
-  NAME  Device name
+  NAME  Device or group name
 
 No value (-) is printed for HUE and SAT if the device does not support colors.
 
@@ -20,7 +20,7 @@ Set device or group parameters (on/off, hue, saturation, and brightness) with:
   lightctl set[-group] <id> <on/off> [<brightness: 0..100>]
   lightctl set[-group] <id> <on/off> <hue: 0..360> [<saturation: 0..100>] <brightness: 0..100>
   
-This will also print the device or group table for the specified device.
+This will also print the device or group table for the specified device or group.
 
 Color names can be used instead of hue values:
   red, orange, yellow, lime, green, turquoise, cyan, azure, blue, violet, magenta, rose.
@@ -70,3 +70,4 @@ Disclaimer:
 Author:
   Christian Rauch
 
+  
