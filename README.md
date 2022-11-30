@@ -1,2 +1,72 @@
-# LightCtl
-LightCtl allows you to control your Philips Hue lights.
+# LightCtl 0.8
+
+LightCtl allows you to control your Philips Hue lights (API version 1).
+You can query device states or set device attributes (such as brightness or hue).
+
+Query device or group states with:
+  lightctl state[-group] [<id>]
+
+This will print a device or group table for all or the specified ID with following columns:
+  ID    Device ID
+  PWR   On or off    on/off
+  HUE   Hue value    0..360 
+  SAT   Saturation   0..100
+  BRI   Brightness   0..100
+  NAME  Device name
+
+No value (-) is printed for HUE and SAT if the device does not support colors.
+
+Set device or group parameters (on/off, hue, saturation, and brightness) with:
+  lightctl set[-group] <id> <on/off> [<brightness: 0..100>]
+  lightctl set[-group] <id> <on/off> <hue: 0..360> [<saturation: 0..100>] <brightness: 0..100>
+  
+This will also print the device or group table for the specified device.
+
+Color names can be used instead of hue values:
+  red, orange, yellow, lime, green, turquoise, cyan, azure, blue, violet, magenta, rose.
+  
+Options:
+  --bridge=<...>  Set the bridge network address                     (required)
+  --user=<...>    Set the user                                       (required)
+  --alias         Use device names instead of IDs for <id>
+  --raw           Emit raw JSON output (HTTP response from the bridge REST API)
+  --verbose       Enable verbose output
+  --brief         Disable table header line
+
+Example commands:
+  lightctl state Desk               --alias --bridge=<...> --user=<...>
+  lightctl state-group                      --bridge=<...> --user=<...>
+  lightctl state-group 3                    --bridge=<...> --user=<...>
+  lightctl state-group Kitchen      --alias --bridge=<...> --user=<...>
+  lightctl set 7 on 320 80 50               --bridge=<...> --user=<...>
+  lightctl set 11 on orange 100             --bridge=<...> --user=<...>
+  lightctl set Couch on orange 100  --alias --bridge=<...> --user=<...>
+  lightctl set-group Kitchen on 100 --alias --bridge=<...> --user=<...>
+
+Example output:
+  ID PWR HUE SAT BRI NAME
+   1  on  40  90  50 Couch
+   2 off   -   -  50 Living room
+   3 off 240  60 100 Kitchen
+   4  on  30  60 100 Kitchen 2
+
+Remarks:
+  - The program requires wget.
+  - You might define a shell alias that incorporates --bridge=<...> and --user=<...>.
+  - Please refer to https://developers.meethue.com for creating an user account on the bridge. 
+    The process usually involves calling a specific RESTful API (such as <bridge address>
+    /api/newdeveloper) while pushing a physical button on the bridge. 
+  - A program like nmap can be helpful to find the bridge network address.
+  - Group states seem to report the state of one of the devices in the group. 
+
+Disclaimer:
+  This program is free software; you can redistribute it and/or modify it under
+  the terms of the GNU General Public License (GPL) version 3 as published by 
+  the Free Software Foundation version.
+  This program is distributed in the hope that it will be useful, but without
+  any warranty; without even the implied warranty of merchantability or fitness
+  for a particular purpose. 
+
+Author:
+  Christian Rauch
+
