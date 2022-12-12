@@ -106,15 +106,13 @@ void output_formatter::print_help() {
     << "This will print a device or group table for all or the specified IDs with following columns:" << endl
     << "  ID    Device or group ID" << endl
     << "  PWR   On or off    on/off" << endl
-    << "  HUE   Hue value    0..360 " << endl
-    << "  SAT   Saturation   0..100" << endl
-    << "  BRI   Brightness   0..100" << endl
+    << "  HUE   Hue value    0..360 or -" << endl
+    << "  SAT   Saturation   0..100 or -" << endl
+    << "  BRI   Brightness   0..100 or -" << endl
     << "  NAME  Device or group name" << endl
     << endl
-    << "No value (-) is printed for HUE and SAT if the device does not support colors." << endl
-    << endl
     << "Set device or group parameters (on/off, hue, saturation, and brightness) with:" << endl
-    << "  lightctl set[-group] <id> <on/off> [<brightness: 0..100>]" << endl
+    << "  lightctl set[-group] <id> <on/off> [<brightness: 0..100 or>]" << endl
     << "  lightctl set[-group] <id> <on/off> <hue: 0..360> [<saturation: 0..100>] <brightness: 0..100>" << endl
     << "  " << endl
     << "This will also print the device or group table for the specified device or group." << endl
@@ -122,6 +120,9 @@ void output_formatter::print_help() {
     << "Color names can be used instead of hue values:" << endl
     << "  red, orange, yellow, lime, green, turquoise, cyan, azure, blue, violet, magenta, rose." << endl
     << "  " << endl
+    << "No value (-) is printed for HUE and SAT if the device does not support colors." << endl
+    << "In a set command, a value can be omitted (-) to preserve the attribute's current value." << endl
+    << endl
     << "Options:" << endl
     << "  --bridge=<...>  Set the bridge network address                     (required)" << endl
     << "  --user=<...>    Set the user                                       (required)" << endl
@@ -136,8 +137,9 @@ void output_formatter::print_help() {
     << "  lightctl state-group 3                    --bridge=<...> --user=<...>" << endl
     << "  lightctl state-group Kitchen      --alias --bridge=<...> --user=<...>" << endl
     << "  lightctl set 7 on 320 80 50               --bridge=<...> --user=<...>" << endl
+    << "  lightctl set 8 on 120 - -                 --bridge=<...> --user=<...>" << endl
     << "  lightctl set 11 on orange 100             --bridge=<...> --user=<...>" << endl
-    << "  lightctl set Couch on orange 100  --alias --bridge=<...> --user=<...>" << endl
+    << "  lightctl set Couch on - 80        --alias --bridge=<...> --user=<...>" << endl
     << "  lightctl set-group Kitchen on 100 --alias --bridge=<...> --user=<...>" << endl
     << endl
     << "Example output:" << endl
@@ -165,5 +167,6 @@ void output_formatter::print_help() {
     << "  for a particular purpose. " << endl
     << endl
     << "Author:" << endl
-    << "  Christian Rauch" << endl;
+    << "  Christian Rauch" << endl
+    << endl;
 }

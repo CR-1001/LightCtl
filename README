@@ -9,15 +9,13 @@ Query device or group states with:
 This will print a device or group table for all or the specified IDs with following columns:
   ID    Device or group ID
   PWR   On or off    on/off
-  HUE   Hue value    0..360 
-  SAT   Saturation   0..100
-  BRI   Brightness   0..100
+  HUE   Hue value    0..360 or -
+  SAT   Saturation   0..100 or -
+  BRI   Brightness   0..100 or -
   NAME  Device or group name
 
-No value (-) is printed for HUE and SAT if the device does not support colors.
-
 Set device or group parameters (on/off, hue, saturation, and brightness) with:
-  lightctl set[-group] <id> <on/off> [<brightness: 0..100>]
+  lightctl set[-group] <id> <on/off> [<brightness: 0..100 or>]
   lightctl set[-group] <id> <on/off> <hue: 0..360> [<saturation: 0..100>] <brightness: 0..100>
   
 This will also print the device or group table for the specified device or group.
@@ -25,6 +23,9 @@ This will also print the device or group table for the specified device or group
 Color names can be used instead of hue values:
   red, orange, yellow, lime, green, turquoise, cyan, azure, blue, violet, magenta, rose.
   
+No value (-) is printed for HUE and SAT if the device does not support colors.
+In a set command, a value can be omitted (-) to preserve the attribute's current value.
+
 Options:
   --bridge=<...>  Set the bridge network address                     (required)
   --user=<...>    Set the user                                       (required)
@@ -39,8 +40,9 @@ Example commands:
   lightctl state-group 3                    --bridge=<...> --user=<...>
   lightctl state-group Kitchen      --alias --bridge=<...> --user=<...>
   lightctl set 7 on 320 80 50               --bridge=<...> --user=<...>
+  lightctl set 8 on 120 - -                 --bridge=<...> --user=<...>
   lightctl set 11 on orange 100             --bridge=<...> --user=<...>
-  lightctl set Couch on orange 100  --alias --bridge=<...> --user=<...>
+  lightctl set Couch on - 80        --alias --bridge=<...> --user=<...>
   lightctl set-group Kitchen on 100 --alias --bridge=<...> --user=<...>
 
 Example output:

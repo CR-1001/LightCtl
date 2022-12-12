@@ -12,6 +12,8 @@
 
 #include <string>
 #include <string_view>
+#include <functional>
+#include <optional>
 #include <boost/tokenizer.hpp>
 
 #include "state.hpp"
@@ -31,13 +33,13 @@ class command_interpreter{
     // Returns true if it is a set command and fills the parameters
     static bool parse_set_command(
       vector<string>& command,
-      function<uint(string&, bool&)>& name_map, 
+      std::function<uint(string&, bool&)>& name_map, 
       state& state);
 
     // Returns true if it is a state command and fills the parameters
     static bool parse_state_command(
       vector<string>& command,
-      function<uint(string&, bool&)>& name_map,
+      std::function<uint(string&, bool&)>& name_map,
       std::optional<vector<uint>>& ids,
       bool& group);
 

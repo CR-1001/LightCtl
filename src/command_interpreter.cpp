@@ -10,6 +10,7 @@
 #include <string>
 #include <string_view>
 #include <boost/tokenizer.hpp>
+#include <optional>
 
 #include "command_interpreter.hpp"
 
@@ -59,38 +60,50 @@ bool command_interpreter::parse_set_command(
 
   state.on = command[2] == "on";
 
+  auto const not_set = "-";
+
+  string hue_str = not_set;
+  string sat_str = not_set;
+  string bri_str = not_set;
+
+  bool match = false;
+
   // Find the proper command version by word count
-  switch (command.size())
-  {
+  switch (command.size()) {
+
     // set <id> <on/off>
     case 3:
-      return true;
+      match = true;
       break;
 
     // set <id> <on/off> <brightness: 0..100>"
     case 4:
-      state.set_bri100(stoi(command[3]));
-      return true;
+      bri_str = command[3];
+      match = true;
       break;
 
     // set <id> <on/off> <hue: 0..360> <brightness: 0..100>
     case 5:
-      state.set_hue360(stoi(get_hue360(command[3])));
-      state.set_sat100(100);
-      state.set_bri100(stoi(command[4]));
-      return true;
+      hue_str = command[3];
+      sat_str = "100";
+      bri_str = command[4];
+      match = true;
       break;
 
     // set <id> <on/off> <hue: 0..360> <saturation: 0..100> <brightness: 0..100>
     case 6:
-      state.set_hue360(stoi(get_hue360(command[3])));
-      state.set_sat100(stoi(command[4]));
-      state.set_bri100(stoi(command[5]));
-      return true;
+      hue_str = command[3];
+      sat_str = command[4];
+      bri_str = command[5];
+      match = true;
       break;
   }
 
-  return false;
+  if (hue_str != not_set) state.set_hue360(stoi(get_hue360(hue_str)));
+  if (sat_str != not_set) state.set_sat100(stoi(sat_str));
+  if (bri_str != not_set) state.set_bri100(stoi(bri_str));
+
+  return match;
 }
 
 // Returns true if it is a state command and fills the parameters
@@ -113,7 +126,7 @@ bool command_interpreter::parse_state_command(
     ids = std::optional(vector<uint>{id});
   }
   else {
-    ids = nullopt;
+    ids = std::nullopt;
   }
 
   return true;

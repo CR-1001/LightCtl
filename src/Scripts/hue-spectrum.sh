@@ -1,5 +1,4 @@
 #!/bin/bash
-shopt -s expand_aliases
 
 # runs the hue spectrum (0..360) for a single device (first argument).
 
@@ -16,11 +15,3 @@ do
   ((hue=$hue+$incrementHue))
   sleep 1s
 done
-
-
-#echo $*
-#for device in $*
-#do
-#    ./huespectrum.sh $device &
-#  sleep 2s
-#done
