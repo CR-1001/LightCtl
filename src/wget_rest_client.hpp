@@ -24,11 +24,10 @@
   if(this->verbose) { \
     cout \
       << "[" << __func__ << "] " << endl \
-      << format msg << endl << endl; \
+      << boost::format msg << endl << endl; \
   }
 
 using namespace std;
-using namespace boost;
 
 class wget_rest_client {
 

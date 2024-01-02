@@ -20,8 +20,6 @@
 #include "wget_rest_client.hpp"
 
 using namespace std;
-using namespace boost;
-using namespace boost::property_tree;
 
 wget_rest_client::wget_rest_client(bool verbose) {
 
@@ -41,12 +39,11 @@ void wget_rest_client::check_preconditions() {
 string wget_rest_client::call_web_url(string http_verb, string url, string& body) {
 
   auto body_data 
-    = (body.empty() 
-    ? "" 
-    : (format { "--body-data='%1%' " } % body).str());
+    = (body.empty() ? "" 
+    : (boost::format { "--body-data='%1%' " } % body).str());
 
   auto command 
-    = (format {"wget %3%--method=%2% %4%-O - %1%"} 
+    = (boost::format {"wget %3%--method=%2% %4%-O - %1%"} 
       % url
       % http_verb 
       % body_data
@@ -89,15 +86,15 @@ string wget_rest_client::execute_command(string& command) {
 }
 
 // Converts JSON to a property tree
-ptree wget_rest_client::convert_json_to_property_tree(string& json) {
+boost::property_tree::ptree wget_rest_client::convert_json_to_property_tree(string& json) {
 
   stringstream sstream;
 
   sstream << json;
   
-  ptree ptree;
+  boost::property_tree::ptree ptree;
 
-  read_json(sstream, ptree);
+  boost::property_tree::read_json(sstream, ptree);
 
   return ptree;
 }

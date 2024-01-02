@@ -24,7 +24,6 @@
 #include "state.hpp"
 
 using namespace std;
-using namespace boost;
 
 static auto verbose = false;
 

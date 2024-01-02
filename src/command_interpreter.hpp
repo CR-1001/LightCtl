@@ -19,7 +19,6 @@
 #include "state.hpp"
 
 using namespace std;
-using namespace boost;
 
 class command_interpreter{
 

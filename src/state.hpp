@@ -26,6 +26,9 @@ class state {
   // Single device or group
   bool group = false;
 
+  // Member IDs (if it is a group)
+  std::vector<uint> members;
+
   // Hue: 0..65535, 65536 = not set
   uint hue65535 = 65536;
   

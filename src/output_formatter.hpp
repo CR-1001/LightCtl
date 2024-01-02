@@ -20,8 +20,6 @@
 #include "state.hpp"
 
 using namespace std;
-using namespace boost;
-using namespace boost::property_tree;
 
 class output_formatter{
 

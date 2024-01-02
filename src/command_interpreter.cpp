@@ -15,7 +15,6 @@
 #include "command_interpreter.hpp"
 
 using namespace std;
-using namespace boost;
 
 // Extracts the commands (such as "set 7 on 320 80 50" or "state") and ignores the options
 vector<string> command_interpreter::extract_command(int argc, char *argv[]) {

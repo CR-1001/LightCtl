@@ -19,22 +19,27 @@
 #include "state.hpp"
 
 using namespace std;
-using namespace boost;
 
 // Format value
 template<typename t> 
-string output_formatter::format_fallback(std::optional<t>& value, const string& fallback) {
+string output_formatter::format_fallback(
+  std::optional<t>& value, 
+  const string& fallback) {
 
   if(value.has_value()) {
 
-    return (format{"%3.0f"} % value.value()).str();
+    return (boost::format{"%3.0f"} % value.value()).str();
   } 
 
   return fallback;
 }
 
 // Prints the device states
-void output_formatter::print_state(bool raw, bool brief, vector<state>& states, string& json) {
+void output_formatter::print_state(
+  bool raw,
+  bool brief,
+  vector<state>& states,
+  string& json) {
 
   if (raw) {
 
@@ -44,7 +49,13 @@ void output_formatter::print_state(bool raw, bool brief, vector<state>& states, 
   }
 
   if (!brief) {
-    cout << "  ID PWR HUE SAT BRI NAME" << endl;
+    cout << "  ID PWR HUE SAT BRI NAME";
+    
+    if (any_of(states.begin(), states.end(), [](state s){ return s.group; })) {
+      cout << " MEMIDS";
+    }
+
+    cout << endl;
   }
 
   const string not_present = "-";
@@ -54,14 +65,24 @@ void output_formatter::print_state(bool raw, bool brief, vector<state>& states, 
     auto sat = state.get_sat100();
     auto bri = state.get_bri100();
 
-    cout << format{"%4.0f %d %3.0f %3.0f %3.0f %d"}
+    cout << boost::format{"%4.0f %d %3.0f %3.0f %3.0f %d"}
       % state.id 
       % (state.on ? " on" : "off") 
       % (format_fallback<uint>(hue, not_present))
       % (format_fallback<ushort>(sat, not_present))
       % (format_fallback<ushort>(bri, not_present))
-      % state.name 
-      << endl;
+      % state.name;
+
+    if (state.group) {
+      cout << " [";
+      for (auto i = 0; i < state.members.size(); i++) {
+        cout << state.members[i];
+        if (i < state.members.size()-1) cout << ",";
+      }
+      cout << "]";
+    }
+
+    cout << endl;
   }
 }
 
@@ -74,7 +95,7 @@ void output_formatter::print_info() {
     << endl
     << "Commands to query and set device states:" << endl
     << "  lightctl state[-group] [<id>]" << endl
-    << "  lightctl set[-group] <id> <on/off> <hue: 0..360> [<saturation: 0..100>] <brightness: 0..100>" << endl
+    << "  lightctl set[-group] <id> <on/off> <hue: 0..360> [<sat: 0..100>] <brightness: 0..100>" << endl
     << endl
     << "Use the help for a complete command list:" << endl
     << "  lightctl help" << endl
@@ -95,7 +116,7 @@ void output_formatter::print_error() {
 void output_formatter::print_help() {
 
   cout
-    << "# LightCtl 0.8" << endl
+    << "# LightCtl 0.8.3" << endl
     << endl
     << "LightCtl allows you to control your Philips Hue lights (API version 1)." << endl
     << "You can query device states or set device attributes (such as brightness or hue)." << endl
@@ -104,12 +125,13 @@ void output_formatter::print_help() {
     << "  lightctl state[-group] [<id>]" << endl
     << endl
     << "This will print a device or group table for all or the specified IDs with following columns:" << endl
-    << "  ID    Device or group ID" << endl
-    << "  PWR   On or off    on/off" << endl
-    << "  HUE   Hue value    0..360 or -" << endl
-    << "  SAT   Saturation   0..100 or -" << endl
-    << "  BRI   Brightness   0..100 or -" << endl
-    << "  NAME  Device or group name" << endl
+    << "  ID       Device or group ID" << endl
+    << "  PWR      On or off    on/off" << endl
+    << "  HUE      Hue value    0..360 or -" << endl
+    << "  SAT      Saturation   0..100 or -" << endl
+    << "  BRI      Brightness   0..100 or -" << endl
+    << "  NAME     Device or group name" << endl
+    << "  MEMIDS   IDs of group members in squared brackets as comma-separated list " << endl
     << endl
     << "Set device or group parameters (on/off, hue, saturation, and brightness) with:" << endl
     << "  lightctl set[-group] <id> <on/off> [<brightness: 0..100 or>]" << endl
@@ -161,7 +183,7 @@ void output_formatter::print_help() {
     << "Disclaimer:" << endl
     << "  This program is free software; you can redistribute it and/or modify it under" << endl
     << "  the terms of the GNU General Public License (GPL) version 3 as published by " << endl
-    << "  the Free Software Foundation version." << endl
+    << "  the Free Software Foundation." << endl
     << "  This program is distributed in the hope that it will be useful, but without" << endl
     << "  any warranty; without even the implied warranty of merchantability or fitness" << endl
     << "  for a particular purpose. " << endl

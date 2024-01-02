@@ -1,4 +1,4 @@
-# LightCtl 0.8
+# LightCtl 0.8.3
 
 LightCtl allows you to control your Philips Hue lights (API version 1).
 You can query device states or set device attributes (such as brightness or hue).
@@ -7,12 +7,13 @@ Query device or group states with:
   lightctl state[-group] [<id>]
 
 This will print a device or group table for all or the specified IDs with following columns:
-  ID    Device or group ID
-  PWR   On or off    on/off
-  HUE   Hue value    0..360 or -
-  SAT   Saturation   0..100 or -
-  BRI   Brightness   0..100 or -
-  NAME  Device or group name
+  ID       Device or group ID
+  PWR      On or off    on/off
+  HUE      Hue value    0..360 or -
+  SAT      Saturation   0..100 or -
+  BRI      Brightness   0..100 or -
+  NAME     Device or group name
+  MEMIDS   IDs of group members in squared brackets as comma-separated list 
 
 Set device or group parameters (on/off, hue, saturation, and brightness) with:
   lightctl set[-group] <id> <on/off> [<brightness: 0..100 or>]
@@ -64,7 +65,7 @@ Remarks:
 Disclaimer:
   This program is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License (GPL) version 3 as published by 
-  the Free Software Foundation version.
+  the Free Software Foundation.
   This program is distributed in the hope that it will be useful, but without
   any warranty; without even the implied warranty of merchantability or fitness
   for a particular purpose. 
